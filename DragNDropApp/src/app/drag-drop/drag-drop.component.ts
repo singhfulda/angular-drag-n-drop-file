@@ -8,6 +8,7 @@ import { Component, OnInit, EventEmitter, Output } from '@angular/core';
 export class DragDropComponent implements OnInit {
 
   private file: File;
+  private picture: any;
 
   constructor() { }
 
@@ -18,7 +19,16 @@ export class DragDropComponent implements OnInit {
     // do stuff here
     this.file = file;
     if (this.file) {
-      console.log("got files in component"+ file.name);
+      console.log('got files in component' + file.name);
+
+      // Read file into Url
+      const reader: FileReader =  new FileReader();
+      reader.addEventListener('load', () => {
+          this.picture = reader.result;
+          console.log(this.picture);
+          }, false);
+
+          reader.readAsDataURL(file);
     }
   }
 

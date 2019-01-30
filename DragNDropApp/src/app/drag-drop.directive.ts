@@ -8,7 +8,7 @@ export class DragDropDirective {
 
   @HostBinding('style.background') private background = '#eee';
 
-  @Output() private filesChangeEmiter: EventEmitter<FileList> = new EventEmitter();
+  @Output() private filesChangeEmiter: EventEmitter<File> = new EventEmitter();
   private allowed_extensions: Array<string> = ['png', 'jpg', 'bmp', 'gif'];
 
   // The rest of the code with @HostBinding and @HostListeners ...
@@ -35,18 +35,18 @@ export class DragDropDirective {
   @HostListener('drop', ['$event']) public onDrop(evt) {
     evt.preventDefault();
     evt.stopPropagation();
-    let files = evt.dataTransfer.files;
+    const files = evt.dataTransfer.files;
     if (files.length > 0) {
      // emit only first file which passes extensions test
       this.background = '#eee';
-      forEach(files, (file: File) => {
+      for(let count = 0; count < files.length; count++) {
         let valid_counter = 0;
-        const ext = file.name.split('.')[file.name.split('.').length - 1];
+        const ext = (files[count].name.split('.')[files[count].name.split('.').length - 1]).toLowerCase();
         if (this.allowed_extensions.lastIndexOf(ext) != -1 && valid_counter < 1 ) {
-          this.filesChangeEmiter.emit(file);
+          this.filesChangeEmiter.emit(files[count]);
           valid_counter++;
         }
-      });
+      };
 
 
     }
