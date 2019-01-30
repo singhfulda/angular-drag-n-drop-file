@@ -1,7 +1,7 @@
 <div class="droparea" appDragDrop (filesChangeEmiter)="onFilesChange($event)">
   <div class="text-wrapper">
-    <div class="centered" *ngIf="!file">Drop your file here!</div>
-    <div class="centered" *ngIf="file">
+    <div class="centered" *ngIf="!picture">Drop your file here!</div>
+    <div class="centered" *ngIf="picture">
       <img src="{{picture}}"/>
       </div>
   </div>

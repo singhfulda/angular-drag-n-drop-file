@@ -10,6 +10,7 @@ export class DragDropDirective {
 
   @Output() private filesChangeEmiter: EventEmitter<File> = new EventEmitter();
   private allowed_extensions: Array<string> = ['png', 'jpg', 'bmp', 'gif'];
+  private picture: any;
 
   // The rest of the code with @HostBinding and @HostListeners ...
   constructor() { }
@@ -43,10 +44,19 @@ export class DragDropDirective {
         let valid_counter = 0;
         const ext = (files[count].name.split('.')[files[count].name.split('.').length - 1]).toLowerCase();
         if (this.allowed_extensions.lastIndexOf(ext) != -1 && valid_counter < 1 ) {
-          this.filesChangeEmiter.emit(files[count]);
-          valid_counter++;
+          // Read file into Url
+          const reader: FileReader =  new FileReader();
+          reader.addEventListener('load', () => {
+              this.picture = reader.result;
+              console.log(this.picture);
+              this.filesChangeEmiter.emit(this.picture);
+          }, false);
+
+              reader.readAsDataURL(files[count]);
+
+              valid_counter++;
         }
-      };
+      }
 
 
     }
